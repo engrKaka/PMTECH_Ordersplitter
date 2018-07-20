@@ -97,6 +97,13 @@ class PMTECH_Splitorder_Model_Checkout_Type_Onepage extends Mage_Checkout_Model_
 
         $order = $service->getOrder();
         if ($order) {
+		// Added by Prasanna to update Order Subtotal
+		 $order->setBaseSubtotal(round($productObj->getFinalPrice()));
+                $order->setSubtotal(round($productObj->getFinalPrice()));
+                $order->setBaseGrandTotal(round($productObj->getFinalPrice()));
+                $order->setGrandTotal(round($productObj->getFinalPrice()));
+                $order->setParentOrderId($parent_order_id);
+                $order->save();
             Mage::dispatchEvent('checkout_type_onepage_save_order_after',
                 array('order'=>$order, 'quote'=>$quoteObj));
             $quoteObj->removeAllItems();
